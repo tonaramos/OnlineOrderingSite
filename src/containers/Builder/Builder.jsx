@@ -31,6 +31,7 @@ class Builder extends Component {
     this.updatePurchaseable = this.updatePurchaseable.bind(this);
     this.purchaseHandler = this.purchaseHandler.bind(this);
     this.purchaseCancelHandler = this.purchaseCancelHandler.bind(this);
+    this.purchaseContinuedHandler = this.purchaseContinuedHandler.bind(this);
   }
 
   purchaseHandler() {
@@ -40,6 +41,10 @@ class Builder extends Component {
 
   purchaseCancelHandler() {
     this.setState({ purchasing: false})
+  }
+
+  purchaseContinuedHandler() {
+    alert('You continue!');
   }
 
   updatePurchaseable(ingredients) {
@@ -99,7 +104,10 @@ class Builder extends Component {
       <Aux>
         <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
         HELLLLLOOOOOOO!!!!
-          <OrderSummary ingredients={ingredients} />
+          <OrderSummary
+            ingredients={ingredients}
+            purchaseCancelled={this.purchaseCancelHandler}
+            purchaseContinued={this.purchaseContinuedHandler} />
         </Modal>
         <Burger ingredients={ingredients} />
         <BuildControls
