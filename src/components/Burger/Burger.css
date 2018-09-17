@@ -1,0 +1,38 @@
+/* Mobile layout */
+.Burger {
+  width: 100%;
+  margin: auto; 
+  height: 250px;
+  overflow: scroll;
+  /* for building bigger than 250px we can just scroll and there is no overlap or cut off */
+  text-align: center;
+  /* to center everything  */
+  font-weight: bold;
+  font-size: 1.2rem;
+  /* this font size is based on the defult font size the user selected */
+}
+
+/* Profile Layout */
+@media (min-width: 500px) and (min-height: 400px) {
+  .Burger {
+    width: 350px;
+    height: 300px;
+  }
+}
+
+/* Tablet Layout */
+@media (min-width: 500px) and (min-height: 401px) {
+  .Burger {
+    width: 450px;
+    height: 400px;
+  }
+}
+
+/* Desktop Layout */
+@media (min-width: 1000px) and (min-height: 700px) {
+  .Burger {
+    width: 700px;
+    height: 600px;
+  }
+}
+
