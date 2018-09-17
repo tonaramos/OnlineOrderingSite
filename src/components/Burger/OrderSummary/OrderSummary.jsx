@@ -3,7 +3,7 @@ import Aux from '../../../hoc/Aux';
 import Button from '../../UI/Button/Button';
 
 const orderSummary = (props) => {
-  const { ingredients, purchaseCancelled, purchaseContinued } = props;
+  const { ingredients, purchaseCancelled, purchaseContinued, totalPrice } = props;
   const ingredientSummary = Object.keys(ingredients)
     .map(igKey => (
       <li key={igKey}>
@@ -25,6 +25,11 @@ const orderSummary = (props) => {
       <ul>
         {ingredientSummary}
       </ul>
+      <p>
+        <strong>
+          {`Total: price ${totalPrice.toFixed(2)}`}
+        </strong>
+      </p>
       <p>
         Continue to checkout?
       </p>
