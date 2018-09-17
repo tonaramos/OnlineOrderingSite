@@ -29,11 +29,17 @@ class Builder extends Component {
     this.addIngredientHandler = this.addIngredientHandler.bind(this);
     this.removeIngredientHandler = this.removeIngredientHandler.bind(this);
     this.updatePurchaseable = this.updatePurchaseable.bind(this);
-    this.purchasingHandler = this.purchasingHandler.bind(this);
+    this.purchaseHandler = this.purchaseHandler.bind(this);
+    this.purchaseCancelHandler = this.purchaseCancelHandler.bind(this);
   }
 
-  purchasingHandler() {
+  purchaseHandler() {
     this.setState({ purchasing: true });
+    console.log('at update purchasable handler', this.state)
+  }
+
+  purchaseCancelHandler() {
+    this.setState({ purchasing: false})
   }
 
   updatePurchaseable(ingredients) {
@@ -88,10 +94,11 @@ class Builder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
       return null;
     });
-
+    console.log('purchasing state', purchasing)
     return (
       <Aux>
-        <Modal show={purchasing}>
+        <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
+        HELLLLLOOOOOOO!!!!
           <OrderSummary ingredients={ingredients} />
         </Modal>
         <Burger ingredients={ingredients} />
@@ -101,7 +108,7 @@ class Builder extends Component {
           disabled={disabledInfo}
           totalPrice={totalPrice}
           purchaseable={purchaseable}
-          ordered={this.purchasingHandler}
+          ordered={this.purchaseHandler}
         />
       </Aux>
     );

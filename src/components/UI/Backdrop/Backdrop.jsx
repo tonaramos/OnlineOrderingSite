@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import classes from './Backdrop.css';
 
 const backdrop = (props) => {
-  const { show } = props;
-  return show ? <div className={classes.backdrop} /> : null;
+  const { show, clicked } = props;
+  console.log('got to the backdrop,a dn this is the show->', show);
+  return show ? <div className={classes.Backdrop} onClick={clicked} /> : null;
 };
 
 backdrop.propTypes = {
