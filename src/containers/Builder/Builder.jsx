@@ -103,7 +103,7 @@ class Builder extends Component {
     return (
       <Aux>
         <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
-        HELLLLLOOOOOOO!!!!
+        
           <OrderSummary
             ingredients={ingredients}
             purchaseCancelled={this.purchaseCancelHandler}
