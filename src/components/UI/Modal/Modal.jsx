@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classes from './Modal.css';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/Aux/Aux';
 import Backdrop from '../Backdrop/Backdrop';
 
-const modal = (props) => {
-  const { show, children, modalClosed } = props;
+class Modal extends Component {
+  
+  shouldComponentUpdate(nextProps, nextState ) {
+    return nextProps.show !== this.props.show;
+  }
+
+  // componentWillUpdate() {
+  //  console.log('[Modal] willupdate') 
+  // }
+
+  render() {
+  const { show, children, modalClosed } = this.props;
   return (
     <Aux>
       <Backdrop show={show} clicked={modalClosed} />
@@ -16,16 +26,14 @@ const modal = (props) => {
           opacity: show ? '1' : '0',
         }}
       >
-      {console.log('showinModal->', show)}
         {children}
       </div>
     </Aux>
-  );
+  )};
 };
 
-modal.propTypes = {
+Modal.propTypes = {
   show: PropTypes.bool.isRequired,
-  // children: PropTypes.objectOfType(,
 };
 
-export default modal;
+export default Modal;

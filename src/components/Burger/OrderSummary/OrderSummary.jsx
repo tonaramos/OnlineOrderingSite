@@ -1,10 +1,13 @@
-import React from 'react';
-import Aux from '../../../hoc/Aux';
+import React, { Component } from 'react';
+import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
 
-const orderSummary = (props) => {
-  const { ingredients, purchaseCancelled, purchaseContinued, totalPrice } = props;
-  const ingredientSummary = Object.keys(ingredients)
+class OrderSummary extends Component {
+  //this could be a functional componenet
+
+  render() {
+    const { ingredients, purchaseCancelled, purchaseContinued, totalPrice } = this.props;
+    const ingredientSummary = Object.keys(ingredients)
     .map(igKey => (
       <li key={igKey}>
         <span style={{ textTransform: 'capitalize' }}>
@@ -13,9 +16,8 @@ const orderSummary = (props) => {
         {`: ${ingredients[igKey]}`}
       </li>
     ));
-    console.log()
-  return (
-    <Aux>
+    return(
+      <Aux>
       <h3>
         Your Order
       </h3>
@@ -40,7 +42,7 @@ const orderSummary = (props) => {
         CONTINUE
       </Button>
     </Aux>
-  );
+  )};   
 };
 
-export default orderSummary;
+export default OrderSummary;
