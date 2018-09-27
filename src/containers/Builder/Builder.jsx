@@ -5,6 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../hoc/axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -26,6 +27,7 @@ class Builder extends Component {
       totalPrice: 4,
       purchaseable: false,
       purchasing: false,
+      loading: false,
     };
     this.addIngredientHandler = this.addIngredientHandler.bind(this);
     this.removeIngredientHandler = this.removeIngredientHandler.bind(this);
@@ -46,6 +48,7 @@ class Builder extends Component {
 
   purchaseContinuedHandler() {
     //in a real site the total price would be recalculated on the server.
+    this.setState({ loading: true })
     const order = {
       ingredients: this.state.ingredients,
       price: this.state.totalPrice,
@@ -62,8 +65,20 @@ class Builder extends Component {
       deliveryMethod: 'fastest'
     }
     axios.post('/orders.json', order)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
+      .then(response => {
+        console.log(response);
+        this.setState({ 
+          loading: false,
+          purchasing: false
+        });
+      })
+      .catch(error => {
+        console.log(error)
+        this.setState({
+          loading: false,
+          purchasing: false
+        });
+      });
   }
 
   updatePurchaseable(ingredients) {
@@ -114,20 +129,27 @@ class Builder extends Component {
     const disabledInfo = {
       ...ingredients,
     };
+
+    let orderSummary = <OrderSummary
+    ingredients={ingredients}
+    purchaseCancelled={this.purchaseCancelHandler}
+    purchaseContinued={this.purchaseContinuedHandler}
+    totalPrice={totalPrice} />;
+    
+    if (this.state.loading) {
+      orderSummary = <Spinner />
+    }
+
+
     Object.keys(disabledInfo).map((key) => {
       disabledInfo[key] = disabledInfo[key] <= 0;
       return null;
     });
-    console.log('purchasing state', purchasing)
+    
     return (
       <Aux>
         <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
-        
-          <OrderSummary
-            ingredients={ingredients}
-            purchaseCancelled={this.purchaseCancelHandler}
-            purchaseContinued={this.purchaseContinuedHandler}
-            totalPrice={totalPrice} />
+          {orderSummary}
         </Modal>
         <Burger ingredients={ingredients} />
         <BuildControls
