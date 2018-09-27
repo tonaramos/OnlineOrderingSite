@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../hoc/axios-orders';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -44,7 +45,25 @@ class Builder extends Component {
   }
 
   purchaseContinuedHandler() {
-    alert('You continue!');
+    //in a real site the total price would be recalculated on the server.
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Tona',
+        address: {
+          street: '100 Test St',
+          state: 'California',
+          zipCode: '10101',
+          country: 'United States'
+        },
+        email: 'test@test.com'
+      },
+      deliveryMethod: 'fastest'
+    }
+    axios.post('/orders.json', order)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
   }
 
   updatePurchaseable(ingredients) {
