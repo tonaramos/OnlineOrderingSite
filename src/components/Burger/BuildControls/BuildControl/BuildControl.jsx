@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import classes from './BuildControl.css';
 
 const buildControl = (props) => {
-  const { label, added, removed, disabled } = props;
+  const {
+    label,
+    added,
+    removed,
+    disabled,
+  } = props;
   return (
     <div className={classes.BuildControl}>
       <div className={classes.Label}>

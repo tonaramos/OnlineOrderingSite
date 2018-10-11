@@ -14,7 +14,8 @@ const buildControls = (props) => {
   const {
     ingredientAdded,
     ingredientRemoved,
-    disabled,totalPrice,
+    disabled,
+    totalPrice,
     purchaseable,
     ordered,
   } = props;
@@ -48,6 +49,10 @@ const buildControls = (props) => {
 };
 
 export default buildControls;
+
+buildControls.defaultProps = {
+  disabled: true,
+};
 
 buildControls.propTypes = {
   ingredientAdded: PropTypes.func.isRequired,

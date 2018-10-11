@@ -7,7 +7,7 @@ const burger = (props) => {
   const { ingredients } = props;
   let transformedIngredients = Object.keys(ingredients)
     .map(igKey => [...Array(ingredients[igKey])]
-      .map((_, i) => <BurgerIngredient key={igKey + i} type={igKey} />))
+      .map(() => <BurgerIngredient key={igKey} type={igKey} />))
     .reduce((arr, el) => arr.concat(el));
 
   if (transformedIngredients.length === 0) {

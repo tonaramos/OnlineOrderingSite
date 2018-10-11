@@ -39,44 +39,45 @@ class Builder extends Component {
 
   purchaseHandler() {
     this.setState({ purchasing: true });
-    console.log('at update purchasable handler', this.state)
+    console.log('at update purchasable handler', this.state);
   }
 
   purchaseCancelHandler() {
-    this.setState({ purchasing: false})
+    this.setState({ purchasing: false });
   }
 
   purchaseContinuedHandler() {
-    //in a real site the total price would be recalculated on the server.
-    this.setState({ loading: true })
+    // in a real site the total price would be recalculated on the server.
+    this.setState({ loading: true });
+    const { ingredients, totalPrice } = this.state;
     const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
+      ingredients,
+      price: totalPrice,
       customer: {
         name: 'Tona',
         address: {
           street: '100 Test St',
           state: 'California',
           zipCode: '10101',
-          country: 'United States'
+          country: 'United States',
         },
-        email: 'test@test.com'
+        email: 'test@test.com',
       },
-      deliveryMethod: 'fastest'
-    }
+      deliveryMethod: 'fastest',
+    };
     axios.post('/orders.json', order)
-      .then(response => {
+      .then((response) => {
         console.log(response);
-        this.setState({ 
-          loading: false,
-          purchasing: false
-        });
-      })
-      .catch(error => {
-        console.log(error)
         this.setState({
           loading: false,
-          purchasing: false
+          purchasing: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          loading: false,
+          purchasing: false,
         });
       });
   }
@@ -124,20 +125,24 @@ class Builder extends Component {
       totalPrice,
       purchaseable,
       purchasing,
+      loading,
     } = this.state;
 
     const disabledInfo = {
       ...ingredients,
     };
 
-    let orderSummary = <OrderSummary
-    ingredients={ingredients}
-    purchaseCancelled={this.purchaseCancelHandler}
-    purchaseContinued={this.purchaseContinuedHandler}
-    totalPrice={totalPrice} />;
-    
-    if (this.state.loading) {
-      orderSummary = <Spinner />
+    let orderSummary = (
+      <OrderSummary
+        ingredients={ingredients}
+        purchaseCancelled={this.purchaseCancelHandler}
+        purchaseContinued={this.purchaseContinuedHandler}
+        totalPrice={totalPrice}
+      />
+    );
+
+    if (loading) {
+      orderSummary = <Spinner />;
     }
 
 
@@ -145,7 +150,7 @@ class Builder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
       return null;
     });
-    
+
     return (
       <Aux>
         <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>

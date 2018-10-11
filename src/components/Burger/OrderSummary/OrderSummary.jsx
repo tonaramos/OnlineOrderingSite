@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
 
-class OrderSummary extends Component {
-  //this could be a functional componenet
-
-  render() {
-    const { ingredients, purchaseCancelled, purchaseContinued, totalPrice } = this.props;
-    const ingredientSummary = Object.keys(ingredients)
+const OrderSummary = (props) => {
+  const {
+    ingredients,
+    purchaseCancelled,
+    purchaseContinued,
+    totalPrice,
+  } = props;
+  const ingredientSummary = Object.keys(ingredients)
     .map(igKey => (
       <li key={igKey}>
         <span style={{ textTransform: 'capitalize' }}>
@@ -16,8 +18,8 @@ class OrderSummary extends Component {
         {`: ${ingredients[igKey]}`}
       </li>
     ));
-    return(
-      <Aux>
+  return (
+    <Aux>
       <h3>
         Your Order
       </h3>
@@ -42,7 +44,7 @@ class OrderSummary extends Component {
         CONTINUE
       </Button>
     </Aux>
-  )};   
+  );
 };
 
 export default OrderSummary;
