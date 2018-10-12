@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import classes from './Modal.css';
 import Aux from '../../../hoc/Aux/Aux';
 import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends Component {
-  shouldComponentUpdate() {
-    const { nextProps, show, children } = this.props;
+  shouldComponentUpdate(nextProps) {
+    const { show, children } = this.props;
     return nextProps.show !== show || nextProps.children !== children;
   }
 
@@ -33,8 +33,8 @@ class Modal extends Component {
   }
 }
 
-Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
-};
+// Modal.propTypes = {
+//   show: PropTypes.bool.isRequired,
+// };
 
 export default Modal;
