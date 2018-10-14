@@ -12,14 +12,14 @@ const withErrorHandler = (WrappedComponent, axios) => class extends Component {
     this.errorConfirmHandler = this.errorConfirmHandler.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     axios.interceptors.request.use((req) => {
-      console.log('axiosReq', req);
+      // console.log('axiosReq', req);
       this.setState({ error: null });
       return req;
     });
     axios.interceptors.response.use((response) => {
-      console.log('res in wEH ->', response);
+      console.log('########### res in wEH ->', response);
       return response;
     }, (error) => {
       console.log('err in wEH ->', error);
