@@ -1,3 +1,5 @@
-body {
-  background-color: aquamarine;
+.pageContents {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }

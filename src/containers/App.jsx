@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+
 import Layout from '../hoc/Layout/Layout';
 import Builder from './Builder/Builder';
+import Checkout from './Checkout/Checkout';
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class App extends Component {
       <Layout>
         <div className="pageContents">
           <Builder />
+          <Checkout />
         </div>
       </Layout>
     );
