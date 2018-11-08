@@ -35,6 +35,7 @@ class Builder extends Component {
   }
 
   componentDidMount() {
+    console.log('this.props from componentDidMount in Builder ==>', this.props);
     axios.get('https://onlineorderingsite.firebaseio.com/ingredients.json')
       .then((response) => {
         this.setState({ ingredients: response.data });
@@ -54,7 +55,10 @@ class Builder extends Component {
   }
 
   purchaseContinuedHandler() {
+    const { history } = this.props;
+    const { ingredients } = this.state;
     // in a real site the total price would be recalculated on the server.
+    /*
     this.setState({ loading: true });
     const { ingredients, totalPrice } = this.state;
     const order = {
@@ -87,7 +91,22 @@ class Builder extends Component {
           purchasing: false,
         });
       });
+    */
+    const queryParams = [];
+    // const ingredientKeys = Object.keys(ingredients);
+    Object.keys(ingredients).forEach((i) => {
+      // if (ingredientKeys.length > 0) {
+      queryParams.push(`${encodeURIComponent(i)}=${encodeURIComponent(ingredients[i])}`);
+    });
+    const queryString = queryParams.join('&');
+    history.push({
+      pathname: '/checkout',
+      search: `?${queryString}`,
+    });
+    // console.log('queryParams in Builder for continue order window ->>', queryParams);
+    // console.log('queryString for continue order window ->>', queryString);
   }
+
 
   updatePurchaseable(ingredients) {
     const totalItems = Object.keys(ingredients)
