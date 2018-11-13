@@ -56,57 +56,18 @@ class Builder extends Component {
 
   purchaseContinuedHandler() {
     const { history } = this.props;
-    const { ingredients } = this.state;
-    // in a real site the total price would be recalculated on the server.
-    /*
-    this.setState({ loading: true });
     const { ingredients, totalPrice } = this.state;
-    const order = {
-      ingredients,
-      price: totalPrice,
-      customer: {
-        name: 'Tona',
-        address: {
-          street: '100 Test St',
-          state: 'California',
-          zipCode: '10101',
-          country: 'United States',
-        },
-        email: 'test@test.com',
-      },
-      deliveryMethod: 'fastest',
-    };
-    axios.post('/orders.json', order)
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-      });
-    */
-    console.log(this.props);
+    // in a real site the total price would be recalculated on the server.
     const queryParams = [];
-    // const ingredientKeys = Object.keys(ingredients);
     Object.keys(ingredients).forEach((i) => {
-      // if (ingredientKeys.length > 0) {
       queryParams.push(`${encodeURIComponent(i)}=${encodeURIComponent(ingredients[i])}`);
     });
-    console.log('queryParams in Builder for continue order window ->>', queryParams);
+    queryParams.push(`price=${totalPrice}`);
     const queryString = queryParams.join('&');
     history.push({
       pathname: '/checkout',
       search: `?${queryString}`,
     });
-    // console.log('queryParams in Builder for continue order window ->>', queryParams);
-    // console.log('queryString for continue order window ->>', queryString);
   }
 
 

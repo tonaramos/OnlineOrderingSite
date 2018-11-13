@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 
-// import Layout from './hoc/Layout/Layout';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-// import Checkout from './containers/Checkout/Checkout';
+import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredients: {
-        salad: 1,
-        Meat: 1,
-        cheese: 1,
-        bacon: 1,
-      },
+      ingredients: null,
+      totalPrice: 0,
     };
     this.checkoutCancelled = this.checkoutCancelled.bind(this);
     this.checkoutContinued = this.checkoutContinued.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { location } = this.props;
     const query = new URLSearchParams(location.search);
     const ingredients = {};
-    [...query.entries()].map((key) => {
-      ingredients[key[0]] = +(key[1]);
+    let price = 0;
+    [...query.entries()].map((param) => {
+      if (param[0] === 'price') {
+        const thePrice = param[1];
+        price = thePrice;
+      } else {
+        ingredients[param[0]] = +param[1];
+      }
       return true;
     });
-    this.setState({ ingredients });
+    this.setState({ ingredients, totalPrice: price });
   }
 
   checkoutCancelled() {
@@ -41,14 +43,25 @@ class Checkout extends Component {
   }
 
   render() {
-    const { ingredients } = this.state;
-    console.log('ingredients at checkout', ingredients);
+    const { ingredients, totalPrice } = this.state;
+    const { match } = this.props;
+    // console.log(price);
     return (
       <div>
         <CheckoutSummary
           ingredients={ingredients}
           checkoutCancelled={this.checkoutCancelled}
           checkoutContinued={this.checkoutContinued}
+        />
+        <Route
+          path={`${match.path}/contact-data`}
+          render={props => (
+            <ContactData
+              ingredients={ingredients}
+              price={totalPrice}
+              {...props}
+            />
+          )}
         />
       </div>
     );
