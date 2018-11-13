@@ -92,12 +92,14 @@ class Builder extends Component {
         });
       });
     */
+    console.log(this.props);
     const queryParams = [];
     // const ingredientKeys = Object.keys(ingredients);
     Object.keys(ingredients).forEach((i) => {
       // if (ingredientKeys.length > 0) {
       queryParams.push(`${encodeURIComponent(i)}=${encodeURIComponent(ingredients[i])}`);
     });
+    console.log('queryParams in Builder for continue order window ->>', queryParams);
     const queryString = queryParams.join('&');
     history.push({
       pathname: '/checkout',

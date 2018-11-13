@@ -21,15 +21,13 @@ class Checkout extends Component {
 
   componentDidMount() {
     const { location } = this.props;
-    console.log(new URLSearchParams(location.search));
     const query = new URLSearchParams(location.search);
-    console.log('they new URLSearch..->', query.entries());
     const ingredients = {};
-    query.entries().map((param) => {
-      ingredients[param[0]] = +param[1];
+    [...query.entries()].map((key) => {
+      ingredients[key[0]] = +(key[1]);
       return true;
     });
-    // this.setState({ ingredients });
+    this.setState({ ingredients });
   }
 
   checkoutCancelled() {
@@ -44,6 +42,7 @@ class Checkout extends Component {
 
   render() {
     const { ingredients } = this.state;
+    console.log('ingredients at checkout', ingredients);
     return (
       <div>
         <CheckoutSummary

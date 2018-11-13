@@ -6,6 +6,7 @@ import classes from './CheckoutSummary.css';
 
 const checkoutSummary = (props) => {
   const { ingredients, checkoutCancelled, checkoutContinued } = props;
+  console.log('ingredients at checkOutSummary', ingredients);
   return (
     <div className={classes.CheckoutSummary}>
       <h1>
