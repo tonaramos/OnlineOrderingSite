@@ -5,6 +5,7 @@ import './App.css';
 import Layout from '../hoc/Layout/Layout';
 import Builder from './Builder/Builder';
 import Checkout from './Checkout/Checkout';
+import Orders from './Orders/Orders';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
         <div className="pageContents">
           <Switch>
             <Route path="/checkout" component={Checkout} />
+            <Route path="/orders" exact component={Orders} />
             <Route path="/" exact component={Builder} />
           </Switch>
         </div>
