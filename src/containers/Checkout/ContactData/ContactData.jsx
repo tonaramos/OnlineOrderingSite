@@ -9,15 +9,70 @@ class ContactData extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      address: {
-        street: '',
-        postalCode: '',
+      orderForm: {
+        name: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Your Name',
+          },
+          value: '',
+        },
+        street: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Street',
+          },
+          value: '',
+        },
+        state: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'State',
+          },
+          value: '',
+        },
+        zipCode: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'ZIP Code',
+          },
+          value: '',
+        },
+        country: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Country',
+          },
+          value: '',
+        },
+        email: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'email',
+            placeholder: 'Your E-Mail',
+          },
+          value: '',
+        },
+        deliveryMethod: {
+          elementType: 'select',
+          elementConfig: {
+            options: [
+              { value: 'fastest', displayValue: 'Fastest' },
+              { value: 'cheapest', displayValue: 'Cheapest' },
+            ],
+          },
+          value: '',
+        },
       },
       loading: false,
     };
     this.orderHandler = this.orderHandler.bind(this);
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
   }
 
   orderHandler(event) {
@@ -57,17 +112,34 @@ class ContactData extends Component {
       });
   }
 
+  inputChangeHandler(event) {
+    console.log('event target', event);
+  }
+
   render() {
     const {
-      name, email, address, loading, purchasing,
+      orderForm, loading, // purchasing,
     } = this.state;
-    console.log(name, email, address, purchasing);
+
+    const formElementsArray = [];
+    const orderFormKeys = Object.keys(orderForm);
+
+    orderFormKeys.map(key => formElementsArray.push({
+      id: key,
+      config: orderForm[key],
+    }));
+    console.log('form elements array----->>>>.', formElementsArray);
     let form = (
       <form>
-        <Input inputtype="input" type="text" name="name" placeholder="Your Name" />
-        <Input inputtype="input" type="email" name="email" placeholder="Your Email" />
-        <Input inputtype="input" type="text" name="street" placeholder="Street" />
-        <Input inputtype="input" type="text" name="postal" placeholder="Postal Code" />
+        {formElementsArray.map(formElement => (
+          <Input
+            key={formElement.id}
+            inputtype={formElement.config.elementType}
+            elementConfig={formElement.config.elementConfig}
+            value={formElement.config.value}
+            changed={this.inputChangeHandler}
+          />
+        ))}
         <Button btnType="Success" clicked={this.orderHandler}>
           {'ORDER'}
         </Button>
