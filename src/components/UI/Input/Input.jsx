@@ -2,14 +2,20 @@ import React from 'react';
 import classes from './Input.css';
 
 const input = (props) => {
+  const { invalid, shouldValidate } = props;
   let inputElement = null;
+  const inputClasses = [classes.InputElement];
+
+  if (invalid && shouldValidate) {
+    inputClasses.push(classes.Invalid);
+  }
 
   switch (props.inputType) {
     case ('input'):
       inputElement = (
         <input
           id="inputForm"
-          className={classes.InputElement}
+          className={inputClasses.join(' ')}
           {...props.elementConfig}
           value={props.value}
           onChange={props.changed}
@@ -46,7 +52,7 @@ const input = (props) => {
       inputElement = (
         <input
           id="inputForm"
-          className={classes.InputElement}
+          className={inputClasses}
           {...props.elementConfig}
           value={props.value}
           onChange={props.changed}
