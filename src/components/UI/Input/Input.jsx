@@ -2,12 +2,26 @@ import React from 'react';
 import classes from './Input.css';
 
 const input = (props) => {
-  const { invalid, shouldValidate } = props;
+  const {
+    invalid, shouldValidate, touched, valueType,
+  } = props;
   let inputElement = null;
   const inputClasses = [classes.InputElement];
 
-  if (invalid && shouldValidate) {
+  if (invalid && shouldValidate && touched) {
     inputClasses.push(classes.Invalid);
+  }
+
+  let validationError = null;
+  if (invalid && touched) {
+    validationError = (
+      <p className={classes.ValidationError}>
+      Please enter a valid
+        {' '}
+        {valueType}
+        !
+      </p>
+    );
   }
 
   switch (props.inputType) {
@@ -66,6 +80,7 @@ const input = (props) => {
         {label}
       </label>
       {inputElement}
+      {validationError}
     </div>
   );
 };
