@@ -4,7 +4,6 @@ import classes from './Order.css';
 
 const order = (props) => {
   const { price, ingredients } = props;
-  // console.log(key);
   const listOfIngredients = [];
   Object.keys(ingredients).map((item) => {
     listOfIngredients.push({

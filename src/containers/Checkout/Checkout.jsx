@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
@@ -7,29 +8,8 @@ import ContactData from './ContactData/ContactData';
 class Checkout extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      ingredients: null,
-      totalPrice: 0,
-    };
     this.checkoutCancelled = this.checkoutCancelled.bind(this);
     this.checkoutContinued = this.checkoutContinued.bind(this);
-  }
-
-  componentWillMount() {
-    const { location } = this.props;
-    const query = new URLSearchParams(location.search);
-    const ingredients = {};
-    let price = 0;
-    [...query.entries()].map((param) => {
-      if (param[0] === 'price') {
-        const thePrice = param[1];
-        price = thePrice;
-      } else {
-        ingredients[param[0]] = +param[1];
-      }
-      return true;
-    });
-    this.setState({ ingredients, totalPrice: price });
   }
 
   checkoutCancelled() {
@@ -43,29 +23,25 @@ class Checkout extends Component {
   }
 
   render() {
-    const { ingredients, totalPrice } = this.state;
-    const { match } = this.props;
-    // console.log(price);
+    const { ings, match } = this.props;
     return (
       <div>
         <CheckoutSummary
-          ingredients={ingredients}
+          ingredients={ings}
           checkoutCancelled={this.checkoutCancelled}
           checkoutContinued={this.checkoutContinued}
         />
         <Route
           path={`${match.path}/contact-data`}
-          render={props => (
-            <ContactData
-              ingredients={ingredients}
-              price={totalPrice}
-              {...props}
-            />
-          )}
+          component={ContactData}
         />
       </div>
     );
   }
 }
 
-export default Checkout;
+const mapStateToProps = state => ({
+  ings: state.ingredients,
+});
+
+export default connect(mapStateToProps)(Checkout);

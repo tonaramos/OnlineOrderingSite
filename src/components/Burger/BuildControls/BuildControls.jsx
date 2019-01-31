@@ -51,13 +51,13 @@ const buildControls = (props) => {
 export default buildControls;
 
 buildControls.defaultProps = {
-  disabled: true,
+  // disabled: true,
 };
 
 buildControls.propTypes = {
   ingredientAdded: PropTypes.func.isRequired,
   ingredientRemoved: PropTypes.func.isRequired,
-  disabled: PropTypes.objectOf(PropTypes.bool),
+  // disabled: PropTypes.objectOf(PropTypes.bool),
   totalPrice: PropTypes.number.isRequired,
   purchaseable: PropTypes.bool.isRequired,
   ordered: PropTypes.func.isRequired,

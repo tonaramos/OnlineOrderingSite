@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -113,7 +115,7 @@ class ContactData extends Component {
 
   orderHandler(event) {
     event.preventDefault(); // this prevents sending a request and reloading the form/page
-    const { ingredients, price, history } = this.props;
+    const { ings, price, history } = this.props;
     const { orderForm } = this.state;
     this.setState({ loading: true });
     const formData = {}; // this is a list with a list of properties from the state
@@ -123,7 +125,7 @@ class ContactData extends Component {
     });
 
     const order = {
-      ingredients,
+      ingredients: ings,
       price,
       orderData: formData,
     };
@@ -165,7 +167,6 @@ class ContactData extends Component {
       formIsValid = updatedOrderForm[identifier].valid && formIsValid;
       return true;
     });
-    console.log('form is Valid -> ', formIsValid);
     this.setState({ orderForm: updatedOrderForm, formIsValid });
     return orderForm;
   }
@@ -236,4 +237,9 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => ({
+  ings: state.ingredients,
+  price: state.totalPrice,
+});
+
+export default connect(mapStateToProps)(ContactData);
