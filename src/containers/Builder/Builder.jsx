@@ -15,12 +15,10 @@ class Builder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // purchaseable: false,
       purchasing: false,
       loading: false,
       error: false,
     };
-    // this.updatePurchaseable = this.updatePurchaseable.bind(this);
     this.purchaseHandler = this.purchaseHandler.bind(this);
     this.purchaseCancelHandler = this.purchaseCancelHandler.bind(this);
     this.purchaseContinuedHandler = this.purchaseContinuedHandler.bind(this);
@@ -39,7 +37,6 @@ class Builder extends Component {
 
   purchaseHandler() {
     this.setState({ purchasing: true });
-    console.log('at update purchasable handler', this.state);
   }
 
   purchaseCancelHandler() {
@@ -48,10 +45,8 @@ class Builder extends Component {
 
   purchaseContinuedHandler() {
     const { ings, history } = this.props;
-    console.log(ings);
     history.push('/checkout');
   }
-
 
   // eslint-disable-next-line class-methods-use-this
   updatePurchaseable() {
