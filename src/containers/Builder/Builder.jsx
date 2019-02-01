@@ -6,18 +6,16 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import axios from '../../hoc/axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as builderActions from '../../store/actions/index';
+import axios from '../../hoc/axios-orders';
 
 class Builder extends Component {
   constructor(props) {
     super(props);
     this.state = {
       purchasing: false,
-      loading: false,
-      error: false,
     };
     this.purchaseHandler = this.purchaseHandler.bind(this);
     this.purchaseCancelHandler = this.purchaseCancelHandler.bind(this);
@@ -25,14 +23,8 @@ class Builder extends Component {
   }
 
   componentDidMount() {
-    // console.log('this.props from componentDidMount in Builder ==>', this.props);
-    // axios.get('https://onlineorderingsite.firebaseio.com/ingredients.json')
-    //   .then((response) => {
-    //     this.setState({ ingredients: response.data });
-    //   })
-    //   .catch(() => {
-    //     this.setState({ error: true });
-    //   });
+    const { onInitIngredients } = this.props;
+    onInitIngredients();
   }
 
   purchaseHandler() {
@@ -61,10 +53,10 @@ class Builder extends Component {
     const {
       purchasing,
       loading,
-      error,
     } = this.state;
 
     const {
+      error,
       ings,
       price,
       onIngredientAdded,
@@ -126,11 +118,13 @@ class Builder extends Component {
 const mapStateToProps = state => ({
   ings: state.ingredients,
   price: state.totalPrice,
+  error: state.error,
 });
 
 const mapDispatchToProps = dispatch => ({
   onIngredientAdded: ingName => dispatch(builderActions.addIngredient(ingName)),
   onIngredientRemoved: ingName => dispatch(builderActions.removeIngredient(ingName)),
+  onInitIngredients: () => dispatch(builderActions.initIngredients()),
 });
 
 
