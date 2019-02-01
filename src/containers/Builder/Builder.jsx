@@ -44,7 +44,7 @@ class Builder extends Component {
   }
 
   purchaseContinuedHandler() {
-    const { ings, history } = this.props;
+    const { history } = this.props; // ings
     history.push('/checkout');
   }
 

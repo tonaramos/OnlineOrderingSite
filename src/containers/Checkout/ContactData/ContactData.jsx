@@ -173,6 +173,7 @@ class ContactData extends Component {
 
   checkValidity(value, rules) {
     const { orderForm } = this.state;
+    console.log(orderForm);
     let isValid = true;
     if (rules.required) {
       isValid = value.trim() !== '' && isValid;
