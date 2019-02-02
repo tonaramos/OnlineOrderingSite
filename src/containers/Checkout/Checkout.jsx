@@ -23,11 +23,13 @@ class Checkout extends Component {
   }
 
   render() {
-    const { ings, match } = this.props;
+    const { ings, match, purchased } = this.props;
     let summary = <Redirect to="/" />;
     if (ings) {
+      const purchasedRedirect = purchased ? <Redirect to="/" /> : null;
       summary = (
         <div>
+          {purchasedRedirect}
           <CheckoutSummary
             ingredients={ings}
             checkoutCancelled={this.checkoutCancelled}
@@ -46,6 +48,7 @@ class Checkout extends Component {
 
 const mapStateToProps = state => ({
   ings: state.builder.ingredients,
+  purchased: state.order.purchased,
 });
 
 export default connect(mapStateToProps)(Checkout);

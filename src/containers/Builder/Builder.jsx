@@ -8,7 +8,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as builderActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import axios from '../../hoc/axios-orders';
 
 class Builder extends Component {
@@ -36,8 +36,9 @@ class Builder extends Component {
   }
 
   purchaseContinuedHandler() {
-    const { history } = this.props; // ings
+    const { history, onInitPurchase } = this.props; // ings
     history.push('/checkout');
+    onInitPurchase();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -122,10 +123,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onIngredientAdded: ingName => dispatch(builderActions.addIngredient(ingName)),
-  onIngredientRemoved: ingName => dispatch(builderActions.removeIngredient(ingName)),
-  onInitIngredients: () => dispatch(builderActions.initIngredients()),
+  onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
+  onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
+  onInitIngredients: () => dispatch(actions.initIngredients()),
+  onInitPurchase: () => dispatch(actions.purchaseInit()),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Builder, axios));
