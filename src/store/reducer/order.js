@@ -12,7 +12,6 @@ const reducer = (state = initialState, action) => {
     id: action.orderId,
   };
 
-  console.log('new order in order reducer', newOrder);
   switch (action.type) {
     case actionTypes.PURCHASE_INIT:
       return {
@@ -32,6 +31,21 @@ const reducer = (state = initialState, action) => {
         orders: state.orders.concat(newOrder),
       };
     case actionTypes.PURCHASE_BURGER_FAIL:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actionTypes.FETCH_ORDERS_START:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.FETCH_ORDER_SUCCESS:
+      return {
+        ...state,
+        orders: action.orders,
+      };
+    case actionTypes.FETCH_ORDERS_FAIL:
       return {
         ...state,
         loading: false,

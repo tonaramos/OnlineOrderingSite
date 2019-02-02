@@ -31,3 +31,37 @@ export const purchaseBurger = orderData => (dispatch) => {
 export const purchaseInit = () => ({
   type: actionTypes.PURCHASE_INIT,
 });
+
+export const fetchOrdersSuccess = orders => ({
+  type: actionTypes.FETCH_ORDER_SUCCESS,
+  orders,
+});
+
+export const fetchOrdersFail = error => ({
+  type: actionTypes.FETCH_ORDERS_FAIL,
+  error,
+});
+
+export const fetchOrderStart = () => ({
+  type: actionTypes.FETCH_ORDERS_START,
+});
+
+export const fetchOrders = () => (dispatch) => {
+  axios.get('/orders.json')
+    .then((res) => {
+      fetchOrderStart();
+      const fetchedOrders = [];
+      Object.keys(res.data).map((key) => {
+        fetchedOrders.push({
+          ...res.data[key],
+          id: key,
+        });
+        console.log('at axios success o action.orders-> ', fetchedOrders);
+        return true;
+      });
+      dispatch(fetchOrdersSuccess(fetchedOrders));
+    })
+    .catch((err) => {
+      dispatch(fetchOrdersFail(err));
+    });
+};
