@@ -116,8 +116,8 @@ class Builder extends Component {
 
 
 const mapStateToProps = state => ({
-  ings: state.ingredients,
-  price: state.totalPrice,
+  ings: state.builder.ingredients,
+  price: state.builder.totalPrice,
   error: state.error,
 });
 
