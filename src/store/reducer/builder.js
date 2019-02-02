@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import updatedObject from '../utility';
 
 const initialState = {
   ingredients: null,
@@ -16,14 +17,29 @@ const INGREDIENT_PRICES = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENTS:
-      return {
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
-        },
+      // return {
+      //   ...state,
+      //   ingredients: {
+      //     ...state.ingredients,
+      //     [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+      //   },
+      //   totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+      // };
+
+      // ----- to make the code leaner in the switch we can do the following for all cases:
+      // eslint-disable-next-line no-case-declarations
+      const updatedIngredient = { [action.name]: state.ingredients[action.ingredientName] + 1 };
+      // eslint-disable-next-line no-case-declarations
+      const updatedIngredients = updatedObject(state.ingredients, updatedIngredient);
+      // eslint-disable-next-line no-case-declarations
+      const updatedState = {
+        ingredients: updatedIngredients,
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
       };
+      return updatedObject(
+        state,
+        updatedState,
+      );
     case actionTypes.REMOVE_INGREDIENTS:
       return {
         ...state,
