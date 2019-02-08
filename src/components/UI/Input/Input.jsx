@@ -62,10 +62,32 @@ const input = (props) => {
         </select>
       );
       break;
+    case ('inputAuthEmail'):
+      inputElement = (
+        <input
+          id="inputAuthEmail"
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.changed}
+        />
+      );
+      break;
+    case ('inputAuthPassword'):
+      inputElement = (
+        <input
+          id="inputAuthPassword"
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.changed}
+        />
+      );
+      break;
     default:
       inputElement = (
         <input
-          id="inputForm"
+          id="inputDefaultForm"
           className={inputClasses}
           {...props.elementConfig}
           value={props.value}

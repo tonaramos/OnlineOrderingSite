@@ -213,6 +213,7 @@ class ContactData extends Component {
     if (loading) {
       form = <Spinner />;
     }
+
     return (
       <div className={classes.ContactData}>
         <h4>
