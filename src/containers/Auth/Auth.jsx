@@ -41,11 +41,13 @@ class Auth extends Component {
         },
       },
     };
+    this.submitHandler = this.submitHandler.bind(this);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   checkValidity(value, rules) {
-    const { orderForm } = this.state;
-    console.log(orderForm);
+    // const { controls } = this.state;
+    // controls;
     let isValid = true;
     if (rules.required) {
       isValid = value.trim() !== '' && isValid;
@@ -74,10 +76,12 @@ class Auth extends Component {
   }
 
   submitHandler(event) {
+    console.log('you pressed submit!');
     const { controls } = this.state;
+    console.log('=====> ', controls);
     const { onAuth } = this.props;
     event.preventDefault();
-    onAuth(controls.email.value, controls.password);
+    onAuth(controls.authEmail.value, controls.authPassword.value);
   }
 
   render() {
@@ -114,9 +118,9 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
-        <form onSubmit={this.submitHandler}>
+        <form>
           {form}
-          <Button btnType="Success">
+          <Button btnType="Success" clicked={this.submitHandler}>
             {'SUBMIT'}
           </Button>
         </form>
