@@ -116,7 +116,12 @@ class ContactData extends Component {
 
   orderHandler(event) {
     event.preventDefault(); // this prevents sending a request and reloading the form/page
-    const { ings, price, onOrderBurger } = this.props;
+    const {
+      ings,
+      price,
+      onOrderBurger,
+      token,
+    } = this.props;
     const { orderForm } = this.state;
     const formData = {}; // this is a list with a list of properties from the state
     Object.keys(orderForm).map((formElementIdentifier) => {
@@ -129,7 +134,7 @@ class ContactData extends Component {
       price,
       orderData: formData,
     };
-    onOrderBurger(order);
+    onOrderBurger(order, token);
   }
 
   inputChangeHandler(event, inputIdentifier) {
@@ -229,10 +234,11 @@ const mapStateToProps = state => ({
   ings: state.builder.ingredients,
   price: state.builder.totalPrice,
   loading: state.order.loading,
+  token: state.auth.token,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData)),
+  onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

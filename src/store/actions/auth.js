@@ -18,6 +18,14 @@ export const authFail = error => ({
   error,
 });
 
+export const logOut = () => ({ type: actionTypes.AUTH_LOGOUT });
+
+export const checkAuthTimeout = expirationTime => (dispatch) => {
+  setTimeout(() => {
+    dispatch(logOut());
+  }, expirationTime * 1000);
+};
+
 export const auth = (email, password, isSignup) => (dispatch) => {
   console.log('the key!!', process.env.REACT_APP_FIREBASE_KEY);
   dispatch(authStart());
@@ -35,9 +43,10 @@ export const auth = (email, password, isSignup) => (dispatch) => {
     .then((response) => {
       console.log('THE RESPONSE from post req.->', response);
       dispatch(authSuccess(response.data.idToken, response.data.localId));
+      dispatch(checkAuthTimeout(response.data.expiresIn));
     })
     .catch((err) => {
-      console.log('THE ERROR at auth post request ->', err);
-      dispatch(authFail(err));
+      console.log('THE ERROR at auth post request ->', err.response.data.error);
+      dispatch(authFail(err.response.data.error));
     });
 };

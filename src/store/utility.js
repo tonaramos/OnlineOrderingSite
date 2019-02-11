@@ -3,4 +3,4 @@ const updateObject = (oldObject, updatedProperties) => ({
   ...updatedProperties,
 });
 
-export { updateObject as default };
+export default updateObject;

@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import updatedObject from '../utility';
+import updateObject from '../utility';
 
 const initialState = {
   ingredients: null,
@@ -15,8 +15,11 @@ const INGREDIENT_PRICES = {
 };
 
 const reducer = (state = initialState, action) => {
+  console.log('STATE in builder reducer-> ', state);
   switch (action.type) {
     case actionTypes.ADD_INGREDIENTS:
+      console.log('ACTION in builder-reducer-> ', action);
+
       // return {
       //   ...state,
       //   ingredients: {
@@ -28,15 +31,17 @@ const reducer = (state = initialState, action) => {
 
       // ----- to make the code leaner in the switch we can do the following for all cases:
       // eslint-disable-next-line no-case-declarations
-      const updatedIngredient = { [action.name]: state.ingredients[action.ingredientName] + 1 };
+      const updatedIngredient = {
+        [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+      };
       // eslint-disable-next-line no-case-declarations
-      const updatedIngredients = updatedObject(state.ingredients, updatedIngredient);
+      const updatedIngredients = updateObject(state.ingredients, updatedIngredient);
       // eslint-disable-next-line no-case-declarations
       const updatedState = {
         ingredients: updatedIngredients,
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
       };
-      return updatedObject(
+      return updateObject(
         state,
         updatedState,
       );
