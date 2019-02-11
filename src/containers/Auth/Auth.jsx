@@ -40,8 +40,10 @@ class Auth extends Component {
           touched: false,
         },
       },
+      isSignup: true,
     };
     this.submitHandler = this.submitHandler.bind(this);
+    this.switchAuthModeHandler = this.switchAuthModeHandler.bind(this);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -76,18 +78,21 @@ class Auth extends Component {
   }
 
   submitHandler(event) {
-    console.log('you pressed submit!');
-    const { controls } = this.state;
+    const { controls, isSignup } = this.state;
     console.log('=====> ', controls);
     const { onAuth } = this.props;
     event.preventDefault();
-    onAuth(controls.authEmail.value, controls.authPassword.value);
+    onAuth(controls.authEmail.value, controls.authPassword.value, isSignup);
+  }
+
+  switchAuthModeHandler() {
+    this.setState(prevState => ({ isSignup: !prevState.isSignup }));
   }
 
   render() {
     const {
       controls,
-      // formIsValid,
+      isSignup,
     } = this.state;
 
     // const {
@@ -124,13 +129,16 @@ class Auth extends Component {
             {'SUBMIT'}
           </Button>
         </form>
+        <Button btnType="Danger" clicked={this.switchAuthModeHandler}>
+          { `SWITCH TO ${isSignup ? 'SIGNIN' : 'SIGNUP'}`}
+        </Button>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  onAuth: (email, password) => dispatch(actions.auth(email, password)),
+  onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
 });
 
 export default connect(null, mapDispatchToProps)(Auth);
