@@ -7,6 +7,7 @@ import Builder from './Builder/Builder';
 import Checkout from './Checkout/Checkout';
 import Orders from './Orders/Orders';
 import Auth from './Auth/Auth';
+import Logout from './Auth/Logout/Logout';
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class App extends Component {
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" exact component={Orders} />
             <Route path="/auth" exact component={Auth} />
+            <Route path="/logout" exact component={Logout} />
             <Route path="/" exact component={Builder} />
           </Switch>
         </div>

@@ -28,7 +28,12 @@ class Builder extends Component {
   }
 
   purchaseHandler() {
-    this.setState({ purchasing: true });
+    const { isAuthenticated, history } = this.props;
+    if (isAuthenticated) {
+      this.setState({ purchasing: true });
+    } else {
+      history.push('/auth');
+    }
   }
 
   purchaseCancelHandler() {
@@ -62,6 +67,7 @@ class Builder extends Component {
       price,
       onIngredientAdded,
       onIngredientRemoved,
+      isAuthenticated,
     } = this.props;
 
     const disabledInfo = {
@@ -87,6 +93,7 @@ class Builder extends Component {
             totalPrice={price}
             purchaseable={this.updatePurchaseable()}
             ordered={this.purchaseHandler}
+            isAuth={isAuthenticated}
           />
         </Aux>);
 
@@ -120,6 +127,7 @@ const mapStateToProps = state => ({
   ings: state.builder.ingredients,
   price: state.builder.totalPrice,
   error: state.error,
+  isAuthenticated: state.auth.token != null,
 });
 
 const mapDispatchToProps = dispatch => ({
