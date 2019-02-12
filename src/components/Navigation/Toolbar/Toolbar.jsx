@@ -6,7 +6,7 @@ import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 // import drawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 
 const toolbar = (props) => {
-  const { drawerToggleClicked } = props;
+  const { drawerToggleClicked, isAuth } = props;
   return (
     <header className={classes.Toolbar}>
       <DrawerToggle clicked={drawerToggleClicked} />
@@ -14,7 +14,7 @@ const toolbar = (props) => {
         <Logo />
       </div>
       <nav className={classes.DesktopOnly}>
-        <NavigationItems />
+        <NavigationItems isAuthenticated={isAuth} />
       </nav>
     </header>
   );

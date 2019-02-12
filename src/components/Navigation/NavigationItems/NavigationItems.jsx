@@ -1,8 +1,9 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import classes from './NavigationItems.css';
 import NavigationItem from './NavigationItem/NavigationItem';
 
-const navigationItems = () => (
+const navigationItems = props => (
   <ul className={classes.NavigationItems}>
     <NavigationItem link="/" exact>
       Burger Builder
@@ -10,9 +11,16 @@ const navigationItems = () => (
     <NavigationItem link="/Orders">
       Orders
     </NavigationItem>
-    <NavigationItem link="/auth">
+    { !props.isAuthenticated ? (
+      <NavigationItem link="/auth">
       Authenticate
-    </NavigationItem>
+      </NavigationItem>
+    )
+      : (
+        <NavigationItem link="/logOut">
+    Logout
+        </NavigationItem>
+      ) }
   </ul>
 );
 
