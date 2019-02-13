@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import updateObject from '../utility';
+import { updateObject } from '../../shared/utility';
 
 const initialState = {
   ingredients: null,
@@ -16,11 +16,8 @@ const INGREDIENT_PRICES = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log('STATE in builder reducer-> ', state);
   switch (action.type) {
     case actionTypes.ADD_INGREDIENTS:
-      console.log('ACTION in builder-reducer-> ', action);
-
       // return {
       //   ...state,
       //   ingredients: {

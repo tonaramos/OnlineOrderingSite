@@ -8,6 +8,7 @@ import classes from './ContactData.css';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class ContactData extends Component {
             required: true,
             minLength: 5,
             maxLength: 5,
+            isNumeric: true,
           },
           valid: false,
           touched: false,
@@ -90,6 +92,7 @@ class ContactData extends Component {
           value: '',
           validation: {
             required: true,
+            isEmail: true,
           },
           valid: false,
           touched: false,
@@ -111,7 +114,6 @@ class ContactData extends Component {
     };
     this.orderHandler = this.orderHandler.bind(this);
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
-    this.checkValidity = this.checkValidity.bind(this);
   }
 
   orderHandler(event) {
@@ -141,19 +143,19 @@ class ContactData extends Component {
 
   inputChangeHandler(event, inputIdentifier) {
     const { orderForm } = this.state;
-    const updatedOrderForm = {
-      ...orderForm,
-    };
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier],
-    };
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation,
-    );
-    updatedFormElement.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedFormElement;
+
+    const updatedFormElement = updateObject(orderForm[inputIdentifier], {
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        orderForm[inputIdentifier].validation,
+      ),
+      touched: true,
+    });
+
+    const updatedOrderForm = updateObject(orderForm, {
+      [inputIdentifier]: updatedFormElement,
+    });
 
     let formIsValid = true;
 
@@ -163,22 +165,6 @@ class ContactData extends Component {
     });
     this.setState({ orderForm: updatedOrderForm, formIsValid });
     return orderForm;
-  }
-
-  checkValidity(value, rules) {
-    const { orderForm } = this.state;
-    console.log(orderForm);
-    let isValid = true;
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules.length) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-    return isValid;
   }
 
   render() {

@@ -14,21 +14,15 @@ const withErrorHandler = (WrappedComponent, axios) => class extends Component {
 
   componentWillMount() {
     this.reqInterceptor = axios.interceptors.request.use((req) => {
-      // console.log('axiosReq', req);
       this.setState({ error: null });
       return req;
     });
-    this.resInterceptor = axios.interceptors.response.use((response) => {
-      console.log(''); // console.log('########### res in wEH ->', response);
-      return response;
-    }, (error) => {
-      console.log('err in wEH ->', error);
+    this.resInterceptor = axios.interceptors.response.use(response => response, (error) => {
       this.setState({ error });
     });
   }
 
   componentWillUnmount() {
-    // console.log('will unmount', this.reqInterceptor, this.resInterceptor);
     axios.interceptors.request.eject(this.reqInterceptor);
     axios.interceptors.response.eject(this.resInterceptor);
   }
@@ -39,7 +33,6 @@ const withErrorHandler = (WrappedComponent, axios) => class extends Component {
 
   render() {
     const { error } = this.state;
-    // console.log('theErrorAt withErrorHandler to show  modal->', error);
     return (
       <Aux>
         <Modal

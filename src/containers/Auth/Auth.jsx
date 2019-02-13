@@ -6,7 +6,7 @@ import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Auth.css';
 import * as actions from '../../store/actions/index';
-
+import { updateObject, checkValidity } from '../../shared/utility';
 
 class Auth extends Component {
   constructor(props) {
@@ -50,47 +50,26 @@ class Auth extends Component {
 
   componentDidMount() {
     const { building, authRedirectPath, onSetAuthRedirectPath } = this.props;
-    console.log('building? ', building, ' authRedirectPath? ', authRedirectPath);
     if (!building && authRedirectPath !== '/') {
-      console.log('about to call onSetAuthRedirectPath');
       onSetAuthRedirectPath();
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  checkValidity(value, rules) {
-    // const { controls } = this.state;
-    // controls;
-    let isValid = true;
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules.length) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-    return isValid;
-  }
-
   inputChangeHandler(event, controlName) {
     const { controls } = this.state;
-    const updatedControls = {
-      ...controls,
-      [controlName]: {
-        ...controls[controlName],
+    const updatedControls = updateObject(controls, {
+      [controlName]: updateObject(controls[controlName], {
         value: event.target.value,
-        valid: this.checkValidity(event.target.value, controls[controlName].validation),
+        valid: checkValidity(event.target.value, controls[controlName].validation),
         touched: true,
-      },
-    };
+      }),
+    });
+
     this.setState({ controls: updatedControls });
   }
 
   submitHandler(event) {
     const { controls, isSignup } = this.state;
-    console.log('=====> ', controls);
     const { onAuth } = this.props;
     event.preventDefault();
     onAuth(controls.authEmail.value, controls.authPassword.value, isSignup);

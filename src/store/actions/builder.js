@@ -23,10 +23,9 @@ export const initIngredients = () => ((dispatch) => {
   axios.get('https://onlineorderingsite.firebaseio.com/ingredients.json')
     .then((response) => {
       dispatch(setIngredients(response.data));
-      console.log('axios request res=> ', response);
     })
     .catch((error) => {
-      console.log('error fetching ingredients -> ', error);
-      dispatch(fetchIngredientsFailed());
+      // Doing anything with this error?
+      dispatch(fetchIngredientsFailed(error));
     });
 });

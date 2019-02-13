@@ -10,10 +10,6 @@ class Modal extends Component {
     return nextProps.show !== show || nextProps.children !== children;
   }
 
-  // componentWillUpdate() {
-  //  console.log('[Modal] willupdate')
-  // }
-
   render() {
     const { show, children, modalClosed } = this.props;
     return (
@@ -32,9 +28,5 @@ class Modal extends Component {
     );
   }
 }
-
-// Modal.propTypes = {
-//   show: PropTypes.bool.isRequired,
-// };
 
 export default Modal;

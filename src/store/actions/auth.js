@@ -36,7 +36,6 @@ export const checkAuthTimeout = expirationTime => (dispatch) => {
 };
 
 export const auth = (email, password, isSignup) => (dispatch) => {
-  console.log('the key!!', process.env.REACT_APP_FIREBASE_KEY);
   dispatch(authStart());
   const authData = {
     email,
@@ -47,7 +46,6 @@ export const auth = (email, password, isSignup) => (dispatch) => {
   if (!isSignup) {
     url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
   }
-  console.log(authData);
   axios.post(url, authData)
     .then((response) => {
       const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
@@ -57,12 +55,10 @@ export const auth = (email, password, isSignup) => (dispatch) => {
       localStorage.setItem('expirationDate', expirationDate);
       // eslint-disable-next-line no-undef
       localStorage.setItem('userId', response.data.localId);
-      console.log('THE RESPONSE from post req.->', response);
       dispatch(authSuccess(response.data.idToken, response.data.localId));
       dispatch(checkAuthTimeout(response.data.expiresIn));
     })
     .catch((err) => {
-      console.log('THE ERROR at auth post request ->', err.response.data.error);
       dispatch(authFail(err.response.data.error));
     });
 };
