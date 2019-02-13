@@ -6,15 +6,21 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+import asyncComponent from '../hoc/asyncComponent/asyncComponent';
+
 import './App.css';
 
 import Layout from '../hoc/Layout/Layout';
 import Builder from './Builder/Builder';
-import Checkout from './Checkout/Checkout';
-import Orders from './Orders/Orders';
-import Auth from './Auth/Auth';
 import Logout from './Auth/Logout/Logout';
 import * as actions from '../store/actions/index';
+
+// The below components are now loaded only when needed.
+const asyncCheckout = asyncComponent(() => import('./Checkout/Checkout'));
+
+const asyncOrders = asyncComponent(() => import('./Orders/Orders'));
+
+const asyncAuth = asyncComponent(() => import('./Auth/Auth'));
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +38,7 @@ class App extends Component {
 
     let routes = (
       <Switch>
-        <Route path="/auth" exact component={Auth} />
+        <Route path="/auth" exact component={asyncAuth} />
         <Route path="/" exact component={Builder} />
         <Redirect to="/" />
       </Switch>
@@ -41,10 +47,10 @@ class App extends Component {
     if (isAuthenticated) {
       routes = (
         <Switch>
-          <Route path="/checkout" component={Checkout} />
-          <Route path="/orders" exact component={Orders} />
+          <Route path="/checkout" component={asyncCheckout} />
+          <Route path="/orders" exact component={asyncOrders} />
           <Route path="/logout" exact component={Logout} />
-          <Route path="/auth" exact component={Auth} />
+          <Route path="/auth" exact component={asyncAuth} />
           <Route path="/" exact component={Builder} />
           <Redirect to="/" />
         </Switch>
