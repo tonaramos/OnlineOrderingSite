@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
@@ -18,7 +19,15 @@ export const authFail = error => ({
   error,
 });
 
-export const logout = () => ({ type: actionTypes.AUTH_LOGOUT });
+export const logout = () => {
+  // eslint-disable-next-line no-undef
+  localStorage.removeItem('token');
+  // eslint-disable-next-line no-undef
+  localStorage.removeItem('expirationDate');
+  // eslint-disable-next-line no-undef
+  localStorage.removeItem('userId');
+  return { type: actionTypes.AUTH_LOGOUT };
+};
 
 export const checkAuthTimeout = expirationTime => (dispatch) => {
   setTimeout(() => {
@@ -41,6 +50,13 @@ export const auth = (email, password, isSignup) => (dispatch) => {
   console.log(authData);
   axios.post(url, authData)
     .then((response) => {
+      const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
+      // eslint-disable-next-line no-undef
+      localStorage.setItem('token', response.data.idToken);
+      // eslint-disable-next-line no-undef
+      localStorage.setItem('expirationDate', expirationDate);
+      // eslint-disable-next-line no-undef
+      localStorage.setItem('userId', response.data.localId);
       console.log('THE RESPONSE from post req.->', response);
       dispatch(authSuccess(response.data.idToken, response.data.localId));
       dispatch(checkAuthTimeout(response.data.expiresIn));
@@ -49,4 +65,29 @@ export const auth = (email, password, isSignup) => (dispatch) => {
       console.log('THE ERROR at auth post request ->', err.response.data.error);
       dispatch(authFail(err.response.data.error));
     });
+};
+
+export const setAuthRedirectPath = path => ({
+  type: actionTypes.SET_AUTH_REDIRECT_PATH,
+  path,
+});
+
+export const authCheckState = () => (dispatch) => {
+  // eslint-disable-next-line no-undef
+  const token = localStorage.getItem('token');
+  if (!token) {
+    dispatch(logout());
+  } else {
+    // eslint-disable-next-line no-undef
+    // eslint-disable-next-line no-use-before-define
+    const expirationDate = new Date(localStorage.getItem('expirationDate'));
+    if (expirationDate <= new Date()) {
+      dispatch(logout());
+    } else {
+      // eslint-disable-next-line no-undef
+      const userId = localStorage.getItem('userId');
+      dispatch(authSuccess(token, userId));
+      dispatch(checkAuthTimeout(((expirationDate.getTime() - new Date().getTime()) / 1000)));
+    }
+  }
 };

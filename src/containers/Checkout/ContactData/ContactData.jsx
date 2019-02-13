@@ -121,6 +121,7 @@ class ContactData extends Component {
       price,
       onOrderBurger,
       token,
+      userId,
     } = this.props;
     const { orderForm } = this.state;
     const formData = {}; // this is a list with a list of properties from the state
@@ -133,6 +134,7 @@ class ContactData extends Component {
       ingredients: ings,
       price,
       orderData: formData,
+      userId,
     };
     onOrderBurger(order, token);
   }
@@ -235,6 +237,7 @@ const mapStateToProps = state => ({
   price: state.builder.totalPrice,
   loading: state.order.loading,
   token: state.auth.token,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => ({

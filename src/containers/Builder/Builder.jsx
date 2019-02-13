@@ -28,10 +28,11 @@ class Builder extends Component {
   }
 
   purchaseHandler() {
-    const { isAuthenticated, history } = this.props;
+    const { isAuthenticated, history, onSetAuthRedirectPath } = this.props;
     if (isAuthenticated) {
       this.setState({ purchasing: true });
     } else {
+      onSetAuthRedirectPath('/checkout');
       history.push('/auth');
     }
   }
@@ -135,6 +136,7 @@ const mapDispatchToProps = dispatch => ({
   onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
   onInitIngredients: () => dispatch(actions.initIngredients()),
   onInitPurchase: () => dispatch(actions.purchaseInit()),
+  onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Builder, axios));

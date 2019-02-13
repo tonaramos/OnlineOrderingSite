@@ -48,6 +48,15 @@ class Auth extends Component {
     this.switchAuthModeHandler = this.switchAuthModeHandler.bind(this);
   }
 
+  componentDidMount() {
+    const { building, authRedirectPath, onSetAuthRedirectPath } = this.props;
+    console.log('building? ', building, ' authRedirectPath? ', authRedirectPath);
+    if (!building && authRedirectPath !== '/') {
+      console.log('about to call onSetAuthRedirectPath');
+      onSetAuthRedirectPath();
+    }
+  }
+
   // eslint-disable-next-line class-methods-use-this
   checkValidity(value, rules) {
     // const { controls } = this.state;
@@ -101,6 +110,7 @@ class Auth extends Component {
       loading,
       error,
       isAuthenticated,
+      authRedirectPath,
     } = this.props;
 
     const formElementsArray = [];
@@ -140,7 +150,7 @@ class Auth extends Component {
 
     let authRedirect = null;
     if (isAuthenticated) {
-      authRedirect = <Redirect to="/" />;
+      authRedirect = <Redirect to={authRedirectPath} />;
     }
 
     return (
@@ -164,11 +174,14 @@ class Auth extends Component {
 const mapStateToProps = state => ({
   loading: state.auth.loading,
   error: state.auth.error,
-  isAuthenticated: state.auth.token != null,
+  isAuthenticated: state.auth.token !== null,
+  building: state.builder.building,
+  authRedirectPath: state.auth.authRedirectPath,
 });
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
+  onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);
