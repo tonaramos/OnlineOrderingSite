@@ -11,7 +11,7 @@ A web and mobile application for online ordering which gives the user the avilit
 * Order checkout
 * Contact data form
 
-## Build with
+## Built with
 * React & react-router
 * Redux & redux-thunk
 * axios
