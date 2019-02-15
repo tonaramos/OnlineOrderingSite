@@ -11,7 +11,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import axios from '../../hoc/axios-orders';
 
-class Builder extends Component {
+export class Builder extends Component {
   constructor(props) {
     super(props);
     this.state = {
